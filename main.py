@@ -5,6 +5,8 @@ import datetime
 import wikipedia
 import pyjokes
 import time
+from audioBook import readbook
+from sendmessage import swm
 
 
 listener = sr.Recognizer()
@@ -24,50 +26,30 @@ def talk(text):
         run_alexa()
 
 
-def take_command():
-    try:
-        with sr.Microphone() as source:
-            print('Listening....')
-            voice = listener.listen(source)
-            command = listener.recognize_google(voice)
-            command = command.lower()
-            if 'alexa' in command:
-                command = command.replace('alexa', '')
-                print(command)
-    except:
-        pass
-    return command
-
-
-def swm():
-    engine.say('please say number')
-    engine.runAndWait()
-    try:
-        with sr.Microphone() as source:
-            print('Listening....')
-            number = listener.listen(source)
-            commandN = listener.recognize_google(number)
-            print(commandN)
-            engine.say('what is the message')
-            engine.runAndWait()
-            print('Listening....')
-            message = listener.listen(source)
-            commandM = listener.recognize_google(message)
-            commandM = commandM.lower()
-            print(commandM)
-            # ch = datetime.datetime.now().strftime('%H')
-            # cm = datetime.datetime.now().strftime('%M')
-            now = datetime.datetime.now()
-            m = now.minute + 1
-            pywhatkit.sendwhatmsg(
-                '+91'+commandN, commandM, now.hour, m)
-    except:
-        pass
+# def take_command():
+#     try:
+#         with sr.Microphone() as source:
+#             print('Listening....')
+#             voice = listener.listen(source)
+#             command = listener.recognize_google(voice)
+#             command = command.lower()
+#             if 'alexa' in command:
+#                 command = command.replace('alexa', '')
+#                 print(command)
+#     except:
+#         pass
+#     return command
 
 
 def run_alexa():
-    command = take_command()
-    print(command)
+    with sr.Microphone() as source:
+        print('Listening....')
+        voice = listener.listen(source)
+        command = listener.recognize_google(voice)
+        command = command.lower()
+        if 'alexa' in command:
+            command = command.replace('alexa', '')
+            print(command)
     if 'play' in command:
         song = command.replace('play', '')
         pywhatkit.playonyt(song)
@@ -107,6 +89,8 @@ def run_alexa():
         jok = pyjokes.get_joke()
         talk(jok)
         print(jok)
+    elif 'read book' in command:
+        readbook()
     elif 'good bye' in command:
         talk('ok good bye')
     elif 'send whatsapp message' in command:
