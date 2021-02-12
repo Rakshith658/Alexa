@@ -43,7 +43,7 @@ def readbook():
             co = listener.recognize_google(voice)
             co = co.lower()
             print(co)
-            if 'react' in co:
+            if 'c programming' in co:
                 speaker.say('which page should i read')
                 speaker.runAndWait()
                 try:
@@ -53,11 +53,12 @@ def readbook():
                         p = listener.recognize_google(voice)
                         p = p.lower()
                         print(p)
-                        book = open('C.pdf', 'rb')
+                        book = open(
+                            'C:/Python-project/Alexa/Unit 1-converted (1).pdf', 'rb')
                         PdfReader = PyPDF2.PdfFileReader(book)
-                        pages = PdfReader.numPages
-                        print(pages)
-                        page = PdfReader.getPage(p-1)
+                        # pages = PdfReader.numPages
+                        # print(pages)
+                        page = PdfReader.getPage(p)
                         text = page.extractText()
                         speaker.say(text)
                         speaker.runAndWait()
